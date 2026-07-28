@@ -1,9 +1,18 @@
 import Link from "next/link";
-import { LayoutDashboard, Image as ImageIcon, CalendarClock, Newspaper, LogOut, ExternalLink } from "lucide-react";
+import {
+  LayoutDashboard,
+  Image as ImageIcon,
+  CalendarClock,
+  Newspaper,
+  LogOut,
+  ExternalLink,
+  UserRound,
+} from "lucide-react";
 import { signOut } from "../actions";
 
 const NAV = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
+  { href: "/admin/profile", label: "Profile", icon: UserRound },
   { href: "/admin/paintings", label: "Paintings", icon: ImageIcon },
   { href: "/admin/exhibitions", label: "Exhibitions", icon: CalendarClock },
   { href: "/admin/press", label: "Press", icon: Newspaper },

@@ -110,6 +110,38 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["admins"]["Insert"]>;
         Relationships: [];
       };
+      site_profile: {
+        Row: {
+          id: number;
+          eyebrow_ku: string | null;
+          eyebrow_en: string | null;
+          eyebrow_ar: string | null;
+          name_ku: string | null;
+          name_en: string | null;
+          name_ar: string | null;
+          statement_ku: string | null;
+          statement_en: string | null;
+          statement_ar: string | null;
+          hero_image_url: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          id?: number;
+          eyebrow_ku?: string | null;
+          eyebrow_en?: string | null;
+          eyebrow_ar?: string | null;
+          name_ku?: string | null;
+          name_en?: string | null;
+          name_ar?: string | null;
+          statement_ku?: string | null;
+          statement_en?: string | null;
+          statement_ar?: string | null;
+          hero_image_url?: string | null;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["site_profile"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -124,3 +156,5 @@ export type PressMediaRow = Database["public"]["Tables"]["press_media"]["Row"];
 export type PressMediaInsert = Database["public"]["Tables"]["press_media"]["Insert"];
 export type ExhibitionRow = Database["public"]["Tables"]["exhibitions"]["Row"];
 export type ExhibitionInsert = Database["public"]["Tables"]["exhibitions"]["Insert"];
+export type SiteProfileRow = Database["public"]["Tables"]["site_profile"]["Row"];
+export type SiteProfileInsert = Database["public"]["Tables"]["site_profile"]["Insert"];

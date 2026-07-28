@@ -1,10 +1,10 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminSession } from "@/lib/adminAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { resolveUploadedImageUrl } from "@/lib/supabase/uploadImage";
 import type { PaintingCategory } from "@/lib/supabase/database.types";
 
 const CATEGORIES: PaintingCategory[] = ["historical", "political", "portraits"];
@@ -42,36 +42,6 @@ function parsePaintingFields(formData: FormData) {
   };
 }
 
-/**
- * Returns the resolved image URL, or `undefined` to mean "leave unchanged"
- * (edit form, no new file and no URL typed). An uploaded file always wins
- * over a pasted URL when both are present.
- */
-async function resolveImageUrl(
-  supabase: ReturnType<typeof createAdminClient>,
-  formData: FormData
-): Promise<string | null | undefined> {
-  const file = formData.get("image_file");
-  const urlField = String(formData.get("image_url") ?? "").trim();
-
-  if (file instanceof File && file.size > 0) {
-    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    const path = `${randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("artwork").upload(path, file, {
-      cacheControl: "31536000",
-      upsert: false,
-    });
-    if (error) throw new Error(`Image upload failed: ${error.message}`);
-
-    const { data } = supabase.storage.from("artwork").getPublicUrl(path);
-    return data.publicUrl;
-  }
-
-  if (urlField) return urlField;
-
-  return undefined;
-}
-
 function revalidatePublicSite() {
   revalidatePath("/admin/paintings");
   revalidatePath("/[locale]", "layout");
@@ -81,7 +51,7 @@ export async function createPainting(formData: FormData) {
   await requireAdminSession();
   const supabase = createAdminClient();
   const fields = parsePaintingFields(formData);
-  const imageUrl = await resolveImageUrl(supabase, formData);
+  const imageUrl = await resolveUploadedImageUrl(supabase, formData, "image_file", "image_url");
 
   const { error } = await supabase.from("paintings").insert({ ...fields, image_url: imageUrl ?? null });
   if (error) throw new Error(error.message);
@@ -94,7 +64,7 @@ export async function updatePainting(id: string, formData: FormData) {
   await requireAdminSession();
   const supabase = createAdminClient();
   const fields = parsePaintingFields(formData);
-  const imageUrl = await resolveImageUrl(supabase, formData);
+  const imageUrl = await resolveUploadedImageUrl(supabase, formData, "image_file", "image_url");
 
   const { error } = await supabase
     .from("paintings")
