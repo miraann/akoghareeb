@@ -3,7 +3,8 @@
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdminSession } from "@/lib/adminAuth";
+import { createAdminClient } from "@/lib/supabase/admin";
 import type { PaintingCategory } from "@/lib/supabase/database.types";
 
 const CATEGORIES: PaintingCategory[] = ["historical", "political", "portraits"];
@@ -47,7 +48,7 @@ function parsePaintingFields(formData: FormData) {
  * over a pasted URL when both are present.
  */
 async function resolveImageUrl(
-  supabase: ReturnType<typeof createClient>,
+  supabase: ReturnType<typeof createAdminClient>,
   formData: FormData
 ): Promise<string | null | undefined> {
   const file = formData.get("image_file");
@@ -77,7 +78,8 @@ function revalidatePublicSite() {
 }
 
 export async function createPainting(formData: FormData) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const fields = parsePaintingFields(formData);
   const imageUrl = await resolveImageUrl(supabase, formData);
 
@@ -89,7 +91,8 @@ export async function createPainting(formData: FormData) {
 }
 
 export async function updatePainting(id: string, formData: FormData) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const fields = parsePaintingFields(formData);
   const imageUrl = await resolveImageUrl(supabase, formData);
 
@@ -104,7 +107,8 @@ export async function updatePainting(id: string, formData: FormData) {
 }
 
 export async function deletePainting(id: string) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const { error } = await supabase.from("paintings").delete().eq("id", id);
   if (error) throw new Error(error.message);
 

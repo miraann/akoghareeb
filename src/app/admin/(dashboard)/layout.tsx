@@ -1,19 +1,17 @@
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { ADMIN_COOKIE_NAME, isValidSessionCookie } from "@/lib/adminAuth";
 import { AdminShell } from "../_components/AdminShell";
 
 // Defense in depth: middleware already guards /admin, but every protected
 // server render re-checks the session directly rather than trusting it was
 // already verified upstream.
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const authed = await isValidSessionCookie(cookies().get(ADMIN_COOKIE_NAME)?.value);
 
-  if (!user) {
+  if (!authed) {
     redirect("/admin/login");
   }
 
-  return <AdminShell email={user.email ?? ""}>{children}</AdminShell>;
+  return <AdminShell>{children}</AdminShell>;
 }

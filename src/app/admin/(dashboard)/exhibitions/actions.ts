@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdminSession } from "@/lib/adminAuth";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 function parseExhibitionFields(formData: FormData) {
   const year = String(formData.get("year") ?? "").trim();
@@ -31,7 +32,8 @@ function revalidatePublicSite() {
 }
 
 export async function createExhibition(formData: FormData) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const fields = parseExhibitionFields(formData);
 
   const { error } = await supabase.from("exhibitions").insert(fields);
@@ -42,7 +44,8 @@ export async function createExhibition(formData: FormData) {
 }
 
 export async function updateExhibition(id: string, formData: FormData) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const fields = parseExhibitionFields(formData);
 
   const { error } = await supabase.from("exhibitions").update(fields).eq("id", id);
@@ -53,7 +56,8 @@ export async function updateExhibition(id: string, formData: FormData) {
 }
 
 export async function deleteExhibition(id: string) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const { error } = await supabase.from("exhibitions").delete().eq("id", id);
   if (error) throw new Error(error.message);
 

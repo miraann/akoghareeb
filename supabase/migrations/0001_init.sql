@@ -8,10 +8,16 @@
 create extension if not exists "pgcrypto"; -- gen_random_uuid()
 
 -- ============================================================================
--- admins — allowlist of auth.users permitted to write content.
--- Membership is managed by hand (Supabase dashboard / service role), never
--- through the public API — there is deliberately no INSERT/UPDATE/DELETE
--- policy below, so an authenticated user can never grant themselves access.
+-- admins — allowlist of auth.users permitted to write content via the anon/
+-- publishable key under RLS. NOTE: the admin panel itself does NOT use
+-- Supabase Auth — it gates access with a single shared password and writes
+-- through the service-role key (which bypasses RLS entirely), so nothing
+-- here is required for the admin panel to work. This table only matters if
+-- you also want real per-user Supabase Auth sessions to be able to write
+-- under RLS (e.g. a future non-service-role client). Membership is managed
+-- by hand (Supabase dashboard / service role), never through the public
+-- API — there is deliberately no INSERT/UPDATE/DELETE policy below, so an
+-- authenticated user can never grant themselves access.
 -- ============================================================================
 create table if not exists public.admins (
   user_id uuid primary key references auth.users (id) on delete cascade,
@@ -219,10 +225,13 @@ create policy "Admins can delete artwork images"
   using (bucket_id = 'artwork' and public.is_admin());
 
 -- ============================================================================
--- Post-deploy: grant yourself admin access
+-- Post-deploy
 -- ============================================================================
--- 1. Create your admin user in Authentication > Users (or via
---    supabase.auth.signUp from a trusted context), then run:
+-- The admin panel (/admin) is gated by ADMIN_PASSWORD in .env.local, not by
+-- a Supabase Auth user — there's nothing to create here for it to work.
 --
---   insert into public.admins (user_id)
---   values ('<the user''s auth.users.id>');
+-- The `admins` table above is only relevant if you separately want a real
+-- Supabase Auth user to be able to write under RLS (e.g. via the anon key,
+-- outside the admin panel). If so:
+--   1. Create that user in Authentication > Users.
+--   2. insert into public.admins (user_id) values ('<their auth.users.id>');

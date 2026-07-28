@@ -9,7 +9,7 @@ const NAV = [
   { href: "/admin/press", label: "Press", icon: Newspaper },
 ];
 
-export function AdminShell({ email, children }: { email: string; children: React.ReactNode }) {
+export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div dir="ltr" className="min-h-screen bg-canvas text-ink">
       <header className="border-b border-ink/10 bg-white">
@@ -19,7 +19,6 @@ export function AdminShell({ email, children }: { email: string; children: React
               <span className="font-display text-fluid-base font-semibold text-ink">
                 Ako Gharib — Admin
               </span>
-              <span className="text-fluid-xs text-ink-faint">{email}</span>
             </div>
             <div className="flex items-center gap-3">
               <Link

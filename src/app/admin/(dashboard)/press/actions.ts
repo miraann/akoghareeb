@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdminSession } from "@/lib/adminAuth";
+import { createAdminClient } from "@/lib/supabase/admin";
 import type { PressType } from "@/lib/supabase/database.types";
 
 const TYPES: PressType[] = ["interview", "article", "publication"];
@@ -44,7 +45,8 @@ function revalidatePublicSite() {
 }
 
 export async function createPressItem(formData: FormData) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const fields = parsePressFields(formData);
 
   const { error } = await supabase.from("press_media").insert(fields);
@@ -55,7 +57,8 @@ export async function createPressItem(formData: FormData) {
 }
 
 export async function updatePressItem(id: string, formData: FormData) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const fields = parsePressFields(formData);
 
   const { error } = await supabase.from("press_media").update(fields).eq("id", id);
@@ -66,7 +69,8 @@ export async function updatePressItem(id: string, formData: FormData) {
 }
 
 export async function deletePressItem(id: string) {
-  const supabase = createClient();
+  await requireAdminSession();
+  const supabase = createAdminClient();
   const { error } = await supabase.from("press_media").delete().eq("id", id);
   if (error) throw new Error(error.message);
 
