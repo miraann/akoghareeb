@@ -7,12 +7,14 @@ import {
   LogOut,
   ExternalLink,
   UserRound,
+  BookOpen,
 } from "lucide-react";
 import { signOut } from "../actions";
 
 const NAV = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/profile", label: "Profile", icon: UserRound },
+  { href: "/admin/biography", label: "Biography", icon: BookOpen },
   { href: "/admin/paintings", label: "Paintings", icon: ImageIcon },
   { href: "/admin/exhibitions", label: "Exhibitions", icon: CalendarClock },
   { href: "/admin/press", label: "Press", icon: Newspaper },

@@ -1,14 +1,15 @@
 import Link from "next/link";
-import { Image as ImageIcon, CalendarClock, Newspaper, UserRound } from "lucide-react";
+import { Image as ImageIcon, CalendarClock, Newspaper, UserRound, BookOpen } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 async function getCounts() {
   const supabase = createClient();
-  const [paintings, exhibitions, press, profile] = await Promise.all([
+  const [paintings, exhibitions, press, profile, biographyBlocks] = await Promise.all([
     supabase.from("paintings").select("*", { count: "exact", head: true }),
     supabase.from("exhibitions").select("*", { count: "exact", head: true }),
     supabase.from("press_media").select("*", { count: "exact", head: true }),
     supabase.from("site_profile").select("id").eq("id", 1).maybeSingle(),
+    supabase.from("biography_blocks").select("*", { count: "exact", head: true }),
   ]);
 
   return {
@@ -16,6 +17,7 @@ async function getCounts() {
     exhibitions: exhibitions.count ?? 0,
     press: press.count ?? 0,
     profileConfigured: Boolean(profile.data),
+    biographyBlocks: biographyBlocks.count ?? 0,
   };
 }
 
@@ -29,6 +31,7 @@ export default async function AdminOverviewPage() {
       value: counts.profileConfigured ? "Configured" : "Using defaults",
       icon: UserRound,
     },
+    { href: "/admin/biography", label: "Biography blocks", value: counts.biographyBlocks, icon: BookOpen },
     { href: "/admin/paintings", label: "Paintings", value: counts.paintings, icon: ImageIcon },
     { href: "/admin/exhibitions", label: "Exhibitions", value: counts.exhibitions, icon: CalendarClock },
     { href: "/admin/press", label: "Press & Media", value: counts.press, icon: Newspaper },
@@ -41,7 +44,7 @@ export default async function AdminOverviewPage() {
         <p className="mt-1 text-fluid-sm text-ink-soft">Manage the content shown on the public site.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {cards.map(({ href, label, value, icon: Icon }) => (
           <Link
             key={href}

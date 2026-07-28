@@ -142,6 +142,60 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["site_profile"]["Insert"]>;
         Relationships: [];
       };
+      biography_intro: {
+        Row: {
+          id: number;
+          eyebrow_ku: string | null;
+          eyebrow_en: string | null;
+          eyebrow_ar: string | null;
+          heading_ku: string | null;
+          heading_en: string | null;
+          heading_ar: string | null;
+          intro_ku: string | null;
+          intro_en: string | null;
+          intro_ar: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          id?: number;
+          eyebrow_ku?: string | null;
+          eyebrow_en?: string | null;
+          eyebrow_ar?: string | null;
+          heading_ku?: string | null;
+          heading_en?: string | null;
+          heading_ar?: string | null;
+          intro_ku?: string | null;
+          intro_en?: string | null;
+          intro_ar?: string | null;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["biography_intro"]["Insert"]>;
+        Relationships: [];
+      };
+      biography_blocks: {
+        Row: {
+          id: string;
+          body_ku: string;
+          body_en: string;
+          body_ar: string;
+          image_url: string | null;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          body_ku?: string;
+          body_en?: string;
+          body_ar?: string;
+          image_url?: string | null;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["biography_blocks"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -158,3 +212,7 @@ export type ExhibitionRow = Database["public"]["Tables"]["exhibitions"]["Row"];
 export type ExhibitionInsert = Database["public"]["Tables"]["exhibitions"]["Insert"];
 export type SiteProfileRow = Database["public"]["Tables"]["site_profile"]["Row"];
 export type SiteProfileInsert = Database["public"]["Tables"]["site_profile"]["Insert"];
+export type BiographyIntroRow = Database["public"]["Tables"]["biography_intro"]["Row"];
+export type BiographyIntroInsert = Database["public"]["Tables"]["biography_intro"]["Insert"];
+export type BiographyBlockRow = Database["public"]["Tables"]["biography_blocks"]["Row"];
+export type BiographyBlockInsert = Database["public"]["Tables"]["biography_blocks"]["Insert"];
