@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "title": "Ako Gharib — Kurdish Painter",
+    "description": "The official gallery of Kurdish painter Ako Gharib — historical and national works, political caricature, and portraiture."
+  },
+  "nav": {
+    "brand": "Ako Gharib",
+    "gallery": "Gallery",
+    "biography": "Biography",
+    "media": "Media & Press",
+    "contact": "Contact"
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "ku": "کوردی",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "hero": {
+    "eyebrow": "Kurdish Painter & Visual Storyteller",
+    "name": "Ako Gharib",
+    "statement": "Every canvas is a witness. I paint so that memory, land, and dignity are never erased by time.",
+    "cta": "Explore the Gallery",
+    "scrollHint": "Scroll to begin the journey"
+  },
+  "gallery": {
+    "eyebrow": "Selected Works",
+    "heading": "The Gallery",
+    "subheading": "Three decades of painting across history, satire, and the human face.",
+    "filters": {
+      "all": "All Works",
+      "historical": "Historical & National",
+      "political": "Political Caricature",
+      "portraits": "Portraits"
+    },
+    "year": "Year",
+    "medium": "Medium",
+    "close": "Close",
+    "prev": "Previous work",
+    "next": "Next work",
+    "viewWork": "View artwork",
+    "empty": "No works to show yet — please check back soon."
+  },
+  "biography": {
+    "eyebrow": "The Artist",
+    "heading": "A Life Devoted to the Canvas",
+    "intro": "Ako Gharib has spent a lifetime translating the memory, struggle, and humor of the Kurdish people into paint.",
+    "paragraphs": [
+      "Born into a land shaped by mountains and migration, Ako Gharib first learned to draw before he learned to write — sketching the faces of elders, the folds of traditional dress, and the silhouettes of a homeland often contested but never forgotten.",
+      "His historical and national works trace the long arc of Kurdish identity: uprisings and quiet resilience, festivals and exile, rendered with the reverence of a chronicler and the hand of a painter trained in classical realism.",
+      "Alongside this, a sharper, wittier line runs through his political caricatures — a decades-long conversation with power, drawn with humor sharp enough to disarm and honest enough to sting.",
+      "In his portraits, the two impulses meet: every subject, famous or unnamed, is painted as history in progress — a face worth remembering."
+    ],
+    "quote": "A brush is the quietest way to raise your voice.",
+    "timelineHeading": "Exhibitions & Milestones",
+    "timelineEmpty": "No exhibitions to show yet — please check back soon."
+  },
+  "media": {
+    "eyebrow": "In the Press",
+    "heading": "Media & Press",
+    "subheading": "Interviews, features, and publications on Ako Gharib's work.",
+    "filters": {
+      "all": "All",
+      "interview": "Interviews",
+      "article": "Articles",
+      "publication": "Publications"
+    },
+    "readMore": "Read more",
+    "empty": "No press coverage to show yet — please check back soon."
+  },
+  "contact": {
+    "eyebrow": "Get in Touch",
+    "heading": "Collectors, Commissions & Press",
+    "subheading": "For acquisitions, commission inquiries, exhibitions, or media requests, reach out directly — every message is read personally.",
+    "form": {
+      "name": "Full name",
+      "namePlaceholder": "Your name",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "type": "Inquiry type",
+      "typeOptions": {
+        "collector": "Collector inquiry",
+        "commission": "Commission request",
+        "media": "Press / Media",
+        "other": "Other"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your inquiry...",
+      "submit": "Send message",
+      "sending": "Sending...",
+      "success": "Thank you — your message has been received. We'll be in touch soon.",
+      "error": "Something went wrong. Please try again or email us directly.",
+      "errors": {
+        "name": "Please enter your name.",
+        "email": "Please enter a valid email address.",
+        "message": "Please write a short message."
+      }
+    },
+    "info": {
+      "heading": "Studio & Direct Contact",
+      "emailLabel": "Email",
+      "studioLabel": "Studio",
+      "studioValue": "Erbil, Kurdistan Region — by appointment",
+      "socialsHeading": "Follow the studio"
+    }
+  },
+  "footer": {
+    "tagline": "Painting memory, one canvas at a time.",
+    "rights": "All rights reserved."
+  }
+}

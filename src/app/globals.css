@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Kurdish Sarchia";
+    src: url("/font/kurdish.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+:root {
+  --canvas: #fafaf7;
+  --ink: #1c1b19;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+* {
+  scrollbar-color: rgba(28, 27, 25, 0.25) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(28, 27, 25, 0.2);
+  border-radius: 999px;
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-vazirmatn), "Vazirmatn", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Kurdish locale: use the custom Kurdish typeface everywhere, headings included */
+html[lang="ku"] body,
+html[lang="ku"] .font-display,
+html[lang="ku"] .font-body {
+  font-family: "Kurdish Sarchia", var(--font-vazirmatn), "Vazirmatn", sans-serif;
+}
+
+::selection {
+  background: #c9a227;
+  color: #1c1b19;
+}
+
+[dir="rtl"] .icon-flip {
+  transform: scaleX(-1);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .section-px {
+    @apply px-6 sm:px-10 lg:px-16 xl:px-24;
+  }
+
+  .container-art {
+    @apply mx-auto w-full max-w-8xl;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
