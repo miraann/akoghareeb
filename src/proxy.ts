@@ -7,7 +7,7 @@ const intlMiddleware = createIntlMiddleware(routing);
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login"];
 
-export default async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // /admin lives outside the [locale] segment entirely — it's an internal
