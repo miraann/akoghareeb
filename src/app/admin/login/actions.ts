@@ -13,7 +13,7 @@ export async function signIn(formData: FormData) {
     redirect(`/admin/login?error=1&next=${encodeURIComponent(next)}`);
   }
 
-  cookies().set(ADMIN_COOKIE_NAME, await createSessionCookieValue(), {
+  (await cookies()).set(ADMIN_COOKIE_NAME, await createSessionCookieValue(), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

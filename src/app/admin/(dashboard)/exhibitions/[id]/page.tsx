@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { ExhibitionForm } from "../ExhibitionForm";
 import { updateExhibition } from "../actions";
 
-export default async function EditExhibitionPage({ params }: { params: { id: string } }) {
+export default async function EditExhibitionPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = createClient();
   const { data: exhibition } = await supabase
     .from("exhibitions")

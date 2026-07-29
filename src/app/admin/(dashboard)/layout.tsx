@@ -7,7 +7,7 @@ import { AdminShell } from "../_components/AdminShell";
 // server render re-checks the session directly rather than trusting it was
 // already verified upstream.
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const authed = await isValidSessionCookie(cookies().get(ADMIN_COOKIE_NAME)?.value);
+  const authed = await isValidSessionCookie((await cookies()).get(ADMIN_COOKIE_NAME)?.value);
 
   if (!authed) {
     redirect("/admin/login");

@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { PaintingForm } from "../PaintingForm";
 import { updatePainting } from "../actions";
 
-export default async function EditPaintingPage({ params }: { params: { id: string } }) {
+export default async function EditPaintingPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = createClient();
   const { data: painting } = await supabase.from("paintings").select("*").eq("id", params.id).single();
 

@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { BlockForm } from "../../BlockForm";
 import { updateBiographyBlock } from "../../actions";
 
-export default async function EditBiographyBlockPage({ params }: { params: { id: string } }) {
+export default async function EditBiographyBlockPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = createClient();
   const { data: block } = await supabase
     .from("biography_blocks")

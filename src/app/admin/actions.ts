@@ -5,6 +5,6 @@ import { redirect } from "next/navigation";
 import { ADMIN_COOKIE_NAME } from "@/lib/adminAuth";
 
 export async function signOut() {
-  cookies().delete(ADMIN_COOKIE_NAME);
+  (await cookies()).delete(ADMIN_COOKIE_NAME);
   redirect("/admin/login");
 }

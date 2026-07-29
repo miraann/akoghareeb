@@ -5,11 +5,12 @@ import { DeleteButton } from "../../_components/DeleteButton";
 import { IntroForm } from "./IntroForm";
 import { deleteBiographyBlock, updateBiographyIntro } from "./actions";
 
-export default async function AdminBiographyPage({
-  searchParams,
-}: {
-  searchParams: { saved?: string };
-}) {
+export default async function AdminBiographyPage(
+  props: {
+    searchParams: Promise<{ saved?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const supabase = createClient();
   const [{ data: intro }, { data: blocks, error: blocksError }] = await Promise.all([
     supabase.from("biography_intro").select("*").eq("id", 1).maybeSingle(),
@@ -24,17 +25,14 @@ export default async function AdminBiographyPage({
           The eyebrow, heading, intro, and paragraph vignettes on the Biography section.
         </p>
       </div>
-
       {searchParams.saved === "1" && (
         <p className="flex items-center gap-2 rounded-xl bg-pigment-teal/10 px-4 py-3 text-fluid-sm text-pigment-teal">
           <CheckCircle2 size={16} /> Saved.
         </p>
       )}
-
       <div className="max-w-2xl rounded-2xl border border-ink/10 bg-white p-6 shadow-card sm:p-8">
         <IntroForm action={updateBiographyIntro} intro={intro} />
       </div>
-
       <div className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -72,7 +70,7 @@ export default async function AdminBiographyPage({
               <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-canvas-paper">
                 {block.image_url && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={block.image_url} alt="" className="h-full w-full object-cover" />
+                  (<img src={block.image_url} alt="" className="h-full w-full object-cover" />)
                 )}
               </div>
               <div className="min-w-0 flex-1">

@@ -83,7 +83,7 @@ export async function isValidSessionCookie(value: string | undefined | null): Pr
  * an unauthenticated write with zero database-level protection.
  */
 export async function requireAdminSession(): Promise<void> {
-  const authed = await isValidSessionCookie(cookies().get(ADMIN_COOKIE_NAME)?.value);
+  const authed = await isValidSessionCookie((await cookies()).get(ADMIN_COOKIE_NAME)?.value);
   if (!authed) {
     throw new Error("Not authenticated.");
   }

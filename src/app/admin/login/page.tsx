@@ -2,11 +2,12 @@ import { signIn } from "./actions";
 
 export const metadata = { title: "Admin sign in — Ako Gharib" };
 
-export default function AdminLoginPage({
-  searchParams,
-}: {
-  searchParams: { error?: string; next?: string };
-}) {
+export default async function AdminLoginPage(
+  props: {
+    searchParams: Promise<{ error?: string; next?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const hasError = searchParams.error === "1";
   const next = searchParams.next ?? "/admin";
 

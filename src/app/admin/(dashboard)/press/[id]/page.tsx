@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { PressForm } from "../PressForm";
 import { updatePressItem } from "../actions";
 
-export default async function EditPressItemPage({ params }: { params: { id: string } }) {
+export default async function EditPressItemPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = createClient();
   const { data: item } = await supabase.from("press_media").select("*").eq("id", params.id).single();
 

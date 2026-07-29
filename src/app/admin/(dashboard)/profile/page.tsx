@@ -3,11 +3,12 @@ import { createClient } from "@/lib/supabase/server";
 import { ProfileForm } from "./ProfileForm";
 import { updateProfile } from "./actions";
 
-export default async function AdminProfilePage({
-  searchParams,
-}: {
-  searchParams: { saved?: string };
-}) {
+export default async function AdminProfilePage(
+  props: {
+    searchParams: Promise<{ saved?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const supabase = createClient();
   const { data: profile } = await supabase.from("site_profile").select("*").eq("id", 1).maybeSingle();
 
