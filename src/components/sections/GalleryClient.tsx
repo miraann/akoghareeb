@@ -46,10 +46,15 @@ export function GalleryClient({ items }: { items: GalleryItemType[] }) {
         {filtered.length === 0 ? (
           <p className="text-fluid-base text-ink-faint">{t("empty")}</p>
         ) : (
-          <motion.div layout className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          <motion.div layout className="columns-1 gap-6 space-y-6 sm:columns-2 lg:columns-3">
             <AnimatePresence mode="popLayout">
-              {filtered.map((item) => (
-                <GalleryItem key={item.id} item={item} onOpen={() => setActiveId(item.id)} />
+              {filtered.map((item, index) => (
+                <GalleryItem
+                  key={item.id}
+                  item={item}
+                  index={index}
+                  onOpen={() => setActiveId(item.id)}
+                />
               ))}
             </AnimatePresence>
           </motion.div>
