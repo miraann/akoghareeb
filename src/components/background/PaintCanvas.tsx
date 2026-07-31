@@ -1,8 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, MotionValue, useReducedMotion, useTransform } from "framer-motion";
 import { useDirection } from "@/lib/useDirection";
+
+const COMPACT_VIEWPORT_QUERY = "(max-width: 1023px)";
 
 interface PaintCanvasProps {
   progress: MotionValue<number>;
@@ -22,6 +25,21 @@ interface PaintCanvasProps {
 export function PaintCanvas({ progress, showBrush = true }: PaintCanvasProps) {
   const reduceMotion = useReducedMotion();
   const dir = useDirection();
+
+  // The brush glyph's path (below) was authored drifting mostly toward the
+  // right side of the screen — fine on desktop, but it reads as crowding
+  // the right edge on narrower mobile/tablet/iPad viewports. Mirroring the
+  // waypoints only there flips the whole path left<->right while leaving
+  // desktop untouched.
+  const [isCompactViewport, setIsCompactViewport] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(COMPACT_VIEWPORT_QUERY).matches
+  );
+  useEffect(() => {
+    const query = window.matchMedia(COMPACT_VIEWPORT_QUERY);
+    const handleChange = (e: MediaQueryListEvent) => setIsCompactViewport(e.matches);
+    query.addEventListener("change", handleChange);
+    return () => query.removeEventListener("change", handleChange);
+  }, []);
 
   const heroPath = useTransform(progress, [0, 0.06, 0.16, 0.22], [0, 1, 1, 0]);
   const heroOpacity = useTransform(progress, [0, 0.04, 0.18, 0.24], [0, 0.55, 0.55, 0]);
@@ -44,7 +62,9 @@ export function PaintCanvas({ progress, showBrush = true }: PaintCanvasProps) {
   const brushX = useTransform(
     progress,
     [0, 0.2, 0.4, 0.6, 0.8, 1],
-    ["10%", "84%", "14%", "80%", "18%", "50%"]
+    isCompactViewport
+      ? ["90%", "16%", "86%", "20%", "82%", "50%"]
+      : ["10%", "84%", "14%", "80%", "18%", "50%"]
   );
   const brushY = useTransform(
     progress,

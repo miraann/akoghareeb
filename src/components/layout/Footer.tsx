@@ -6,8 +6,6 @@ import { SocialIcon } from "@/components/ui/SocialIcon";
 import { socials } from "@/data/socials";
 import { scrollToId } from "@/lib/scrollTo";
 
-const SECTION_IDS = ["gallery", "biography", "media", "tributes", "contact"] as const;
-
 export function Footer() {
   const tNav = useTranslations("nav");
   const tFooter = useTranslations("footer");
@@ -21,13 +19,13 @@ export function Footer() {
           rather than relying on scroll-triggered timing. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 h-24 w-24 sm:h-32 sm:w-32"
+        className="pointer-events-none absolute bottom-0 left-0 h-36 w-36 sm:h-48 sm:w-48"
       >
         <Image
           src="/images/backgroundanimationicon/2.png"
           alt=""
           fill
-          sizes="128px"
+          sizes="192px"
           className="object-contain"
         />
       </div>
@@ -43,18 +41,6 @@ export function Footer() {
             </button>
             <p className="max-w-sm text-fluid-sm text-ink-soft">{tFooter("tagline")}</p>
           </div>
-
-          <nav className="flex flex-wrap gap-x-8 gap-y-3">
-            {SECTION_IDS.map((id) => (
-              <button
-                key={id}
-                onClick={() => scrollToId(id)}
-                className="text-fluid-sm font-medium text-ink-soft transition-colors hover:text-pigment-terracotta"
-              >
-                {tNav(id)}
-              </button>
-            ))}
-          </nav>
 
           <div className="flex items-center gap-4">
             {socials.map((s) => (
@@ -74,7 +60,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-2 border-t border-ink/10 pt-8 text-fluid-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:pt-6">
           <span>
-            © {year} {tNav("brand")} — {tFooter("rights")}
+            © {year} {tFooter("developedBy")} — {tFooter("rights")}
           </span>
         </div>
       </div>

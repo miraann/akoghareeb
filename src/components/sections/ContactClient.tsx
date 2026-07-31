@@ -182,7 +182,7 @@ export function ContactClient({ profile }: { profile: SiteProfileRow | null }) {
 
         <Reveal from="end" delay={0.15}>
           {contactCardImageUrl ? (
-            <div className="relative h-full min-h-[420px] w-full overflow-hidden rounded-2xl">
+            <div className="relative hidden h-full min-h-[420px] w-full overflow-hidden rounded-2xl lg:block">
               <Image
                 src={contactCardImageUrl}
                 alt=""
