@@ -1,7 +1,8 @@
 import { getPaintings } from "@/lib/data/paintings";
+import { getPaintingCategories } from "@/lib/data/paintingCategories";
 import { GalleryClient } from "./GalleryClient";
 
 export async function Gallery() {
-  const items = await getPaintings();
-  return <GalleryClient items={items} />;
+  const [items, categories] = await Promise.all([getPaintings(), getPaintingCategories()]);
+  return <GalleryClient items={items} categories={categories} />;
 }

@@ -22,8 +22,14 @@ function secretKey(): string {
  * nothing to authenticate against for writes. This client is how the
  * already-password-gated Server Actions actually perform those writes.
  *
- * Never import this outside of src/app/admin/**\/actions.ts, and never let
- * SUPABASE_SECRET_KEY reach the browser.
+ * Only two kinds of call sites are allowed to import this:
+ *   1. src/app/admin/**\/actions.ts — gated by requireAdminSession() (an
+ *      admin's signed cookie).
+ *   2. src/app/api/notify-admin/route.ts — gated instead by a shared
+ *      x-webhook-secret header, since it's called server-to-server by a
+ *      Supabase DB trigger (no browser session exists to check there).
+ * Both gates exist specifically so this client is never reachable from an
+ * unauthenticated request. Never let SUPABASE_SECRET_KEY reach the browser.
  */
 export function createAdminClient() {
   return createSupabaseClient<Database>(supabaseUrl(), secretKey(), {

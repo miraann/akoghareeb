@@ -1,11 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import { motion, MotionValue, useReducedMotion, useTransform } from "framer-motion";
-import { BrushGlyph } from "./BrushGlyph";
 import { useDirection } from "@/lib/useDirection";
 
 interface PaintCanvasProps {
   progress: MotionValue<number>;
+  /** The floating palette+brush glyph tracks scroll position across the
+   * whole page — on standalone pages that don't share the homepage's
+   * scroll narrative (e.g. the media detail pages), it reads as a stray,
+   * out-of-place element rather than part of a story. Default on. */
+  showBrush?: boolean;
 }
 
 /**
@@ -14,7 +19,7 @@ interface PaintCanvasProps {
  * section, then recedes as the next one takes over — a quiet narrative
  * thread connecting Hero -> Gallery -> Biography -> Media -> Contact.
  */
-export function PaintCanvas({ progress }: PaintCanvasProps) {
+export function PaintCanvas({ progress, showBrush = true }: PaintCanvasProps) {
   const reduceMotion = useReducedMotion();
   const dir = useDirection();
 
@@ -50,24 +55,6 @@ export function PaintCanvas({ progress }: PaintCanvasProps) {
     progress,
     [0, 0.2, 0.4, 0.6, 0.8, 1],
     [-10, 16, -12, 18, -14, 8]
-  );
-
-  // The bristle tip tints to whichever pigment the brush is currently "painting".
-  const brushTipColor = useTransform(
-    progress,
-    [0, 0.19, 0.2, 0.41, 0.42, 0.63, 0.64, 0.85, 0.86, 1],
-    [
-      "#C1652F",
-      "#C1652F",
-      "#1F5F5B",
-      "#1F5F5B",
-      "#C9A227",
-      "#C9A227",
-      "#9B3B3B",
-      "#9B3B3B",
-      "#1C1B19",
-      "#1C1B19",
-    ]
   );
 
   if (reduceMotion) {
@@ -137,53 +124,54 @@ export function PaintCanvas({ progress }: PaintCanvasProps) {
           />
         </svg>
 
-        {/* hand-painted dab, terracotta */}
-        <motion.svg
+        {/* paint splash, top-left */}
+        <motion.div
           style={{ scale: splatterScale }}
           className="absolute left-[10%] top-[20%] h-24 w-24 origin-center sm:h-32 sm:w-32"
-          viewBox="0 0 100 100"
         >
-          <path
-            d="M50 30 C61 27 71 34 70 46 C69 58 60 68 48 67 C37 66 29 57 31 45 C32 37 41 32 50 30Z"
-            fill="#C1652F"
-            fillOpacity="0.16"
+          <Image
+            src="/images/backgroundanimationicon/3.png"
+            alt=""
+            fill
+            sizes="128px"
+            className="object-contain opacity-25"
           />
-          <path
-            d="M74 24 C79 22 83 26 80 30 C78 34 72 33 71 29 C70 27 72 25 74 24Z"
-            fill="#C1652F"
-            fillOpacity="0.22"
-          />
-          <path d="M22 68 C25 67 28 69 27 72 C26 75 22 74 21 71 C21 70 21 69 22 68Z" fill="#C1652F" fillOpacity="0.2" />
-          <path d="M26 20 C28 19 30 21 29 23 C28 25 25 24 25 22 C25 21 25 21 26 20Z" fill="#C1652F" fillOpacity="0.18" />
-        </motion.svg>
-
-        {/* hand-painted dab, teal */}
-        <motion.svg
-          style={{ scale: splatterScale2 }}
-          className="absolute right-[8%] top-[64%] h-24 w-24 origin-center sm:h-32 sm:w-32"
-          viewBox="0 0 100 100"
-        >
-          <path
-            d="M48 32 C58 29 68 37 66 48 C64 58 54 66 44 63 C35 60 30 51 34 42 C36 37 42 34 48 32Z"
-            fill="#1F5F5B"
-            fillOpacity="0.16"
-          />
-          <path d="M20 30 C23 29 26 31 25 34 C24 37 20 36 19 33 C19 32 19 31 20 30Z" fill="#1F5F5B" fillOpacity="0.2" />
-          <path d="M74 60 C77 59 79 61 78 64 C77 67 73 66 72 63 C72 62 73 61 74 60Z" fill="#1F5F5B" fillOpacity="0.18" />
-        </motion.svg>
-
-        <motion.div
-          style={{ left: brushX, top: brushY, rotate: brushRotate, x: "-50%", y: "-50%", z: 0 }}
-          className="absolute h-7 w-7 will-change-transform sm:h-14 sm:w-14"
-        >
-          <motion.div
-            className="h-full w-full opacity-70"
-            animate={{ scale: [1, 1.05, 0.98, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <BrushGlyph className="h-full w-full drop-shadow-sm" tipColor={brushTipColor} />
-          </motion.div>
         </motion.div>
+
+        {/* paint splash, bottom-right (mirrored for variety) */}
+        <motion.div
+          style={{ scale: splatterScale2, scaleX: -1 }}
+          className="absolute right-[8%] top-[64%] h-24 w-24 origin-center sm:h-32 sm:w-32"
+        >
+          <Image
+            src="/images/backgroundanimationicon/3.png"
+            alt=""
+            fill
+            sizes="128px"
+            className="object-contain opacity-25"
+          />
+        </motion.div>
+
+        {showBrush && (
+          <motion.div
+            style={{ left: brushX, top: brushY, rotate: brushRotate, x: "-50%", y: "-50%", z: 0 }}
+            className="absolute h-10 w-10 will-change-transform sm:h-20 sm:w-20"
+          >
+            <motion.div
+              className="relative h-full w-full opacity-80"
+              animate={{ scale: [1, 1.05, 0.98, 1] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Image
+                src="/images/backgroundanimationicon/1.png"
+                alt=""
+                fill
+                sizes="80px"
+                className="object-contain drop-shadow-sm"
+              />
+            </motion.div>
+          </motion.div>
+        )}
       </div>
     </div>
   );

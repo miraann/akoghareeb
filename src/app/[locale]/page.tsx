@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Gallery } from "@/components/sections/Gallery";
 import { Biography } from "@/components/sections/Biography";
 import { MediaPress } from "@/components/sections/MediaPress";
+import { Tributes } from "@/components/sections/Tributes";
 import { Contact } from "@/components/sections/Contact";
 
 // Paintings/exhibitions/press come from Supabase; re-fetch at most once a
@@ -22,6 +23,7 @@ export default function HomePage() {
           <Gallery />
           <Biography />
           <MediaPress />
+          <Tributes />
           <Contact />
         </main>
         <Footer />

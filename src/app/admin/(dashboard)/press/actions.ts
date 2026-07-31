@@ -4,14 +4,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminSession } from "@/lib/adminAuth";
 import { createAdminClient } from "@/lib/supabase/admin";
-import type { PressType } from "@/lib/supabase/database.types";
-
-const TYPES: PressType[] = ["interview", "article", "publication"];
+import { resolveUploadedImageUrl } from "@/lib/supabase/uploadImage";
 
 function parsePressFields(formData: FormData) {
-  const type = String(formData.get("type") ?? "");
-  if (!TYPES.includes(type as PressType)) {
-    throw new Error("Please choose a valid type.");
+  const category_id = String(formData.get("category_id") ?? "").trim();
+  if (!category_id) {
+    throw new Error("تکایە پۆلێک هەڵبژێرە.");
   }
 
   const source = String(formData.get("source") ?? "").trim();
@@ -22,11 +20,11 @@ function parsePressFields(formData: FormData) {
   const title_ar = String(formData.get("title_ar") ?? "").trim();
 
   if (!source || !url || !date || !title_ku || !title_en || !title_ar) {
-    throw new Error("Source, URL, date, and title (in all three languages) are required.");
+    throw new Error("سەرچاوە، لینک، بەروار و ناونیشان (بە هەر سێ زمانەکە) پێویستن.");
   }
 
   return {
-    type: type as PressType,
+    category_id,
     source,
     url,
     date,
@@ -48,8 +46,11 @@ export async function createPressItem(formData: FormData) {
   await requireAdminSession();
   const supabase = createAdminClient();
   const fields = parsePressFields(formData);
+  const imageUrl = await resolveUploadedImageUrl(supabase, formData, "image_file", "image_url");
 
-  const { error } = await supabase.from("press_media").insert(fields);
+  const { error } = await supabase
+    .from("press_media")
+    .insert({ ...fields, image_url: imageUrl ?? null });
   if (error) throw new Error(error.message);
 
   revalidatePublicSite();
@@ -60,8 +61,15 @@ export async function updatePressItem(id: string, formData: FormData) {
   await requireAdminSession();
   const supabase = createAdminClient();
   const fields = parsePressFields(formData);
+  const imageUrl = await resolveUploadedImageUrl(supabase, formData, "image_file", "image_url");
 
-  const { error } = await supabase.from("press_media").update(fields).eq("id", id);
+  const { error } = await supabase
+    .from("press_media")
+    .update({
+      ...fields,
+      ...(imageUrl !== undefined ? { image_url: imageUrl } : {}),
+    })
+    .eq("id", id);
   if (error) throw new Error(error.message);
 
   revalidatePublicSite();

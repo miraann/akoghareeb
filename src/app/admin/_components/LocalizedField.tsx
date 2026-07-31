@@ -1,7 +1,7 @@
 const LANGS = [
-  { code: "ku", label: "Kurdish (default)", dir: "rtl" as const },
-  { code: "en", label: "English", dir: "ltr" as const },
-  { code: "ar", label: "Arabic", dir: "rtl" as const },
+  { code: "ku", label: "کوردی (بنەڕەت)", dir: "rtl" as const },
+  { code: "en", label: "ئینگلیزی", dir: "ltr" as const },
+  { code: "ar", label: "عەرەبی", dir: "rtl" as const },
 ];
 
 interface LocalizedFieldProps {
@@ -10,6 +10,9 @@ interface LocalizedFieldProps {
   defaults?: { ku?: string; en?: string; ar?: string };
   multiline?: boolean;
   required?: boolean;
+  /** Lets the admin manually drag-resize the textarea taller/shorter.
+   * Off by default so existing fields keep their fixed 3-row height. */
+  resizable?: boolean;
 }
 
 /**
@@ -20,9 +23,16 @@ interface LocalizedFieldProps {
  * admin UI's own (always ltr) layout.
  */
 const fieldClassName =
-  "w-full resize-none rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none transition-colors focus:border-pigment-terracotta";
+  "w-full rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none transition-colors focus:border-pigment-terracotta focus:ring-2 focus:ring-pigment-terracotta/15";
 
-export function LocalizedField({ name, label, defaults, multiline, required }: LocalizedFieldProps) {
+export function LocalizedField({
+  name,
+  label,
+  defaults,
+  multiline,
+  required,
+  resizable,
+}: LocalizedFieldProps) {
   return (
     <fieldset className="flex flex-col gap-3">
       <legend className="text-fluid-xs font-medium uppercase tracking-[0.15em] text-ink-soft">
@@ -41,7 +51,7 @@ export function LocalizedField({ name, label, defaults, multiline, required }: L
                 required={required}
                 defaultValue={defaultValue}
                 rows={3}
-                className={fieldClassName}
+                className={`${fieldClassName} ${resizable ? "resize-y" : "resize-none"}`}
               />
             ) : (
               <input

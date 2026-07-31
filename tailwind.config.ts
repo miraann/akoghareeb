@@ -26,9 +26,23 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["var(--font-vazirmatn)", "Vazirmatn", "sans-serif"],
-        body: ["var(--font-vazirmatn)", "Vazirmatn", "sans-serif"],
-        kurdish: ["Kurdish Sarchia", "var(--font-vazirmatn)", "Vazirmatn", "sans-serif"],
+        // Every var() below has an explicit fallback (the 2nd arg) — a bare
+        // var() with no fallback that's ever undefined (e.g. --font-vazirmatn
+        // outside the public [locale] layout tree, like on /admin) makes the
+        // ENTIRE comma-separated font-family value invalid per the CSS spec,
+        // not just that one entry — it doesn't skip to the next name in the
+        // list, it discards the whole declaration and falls through to
+        // inherited/default fonts. This is exactly what silently broke every
+        // custom font on /admin.
+        display: ["var(--font-vazirmatn, Vazirmatn)", "Vazirmatn", "sans-serif"],
+        body: ["var(--font-vazirmatn, Vazirmatn)", "Vazirmatn", "sans-serif"],
+        kurdish: [
+          "var(--font-kurdish-local, 'Kurdish Sarchia')",
+          "Kurdish Sarchia",
+          "var(--font-vazirmatn, Vazirmatn)",
+          "Vazirmatn",
+          "sans-serif",
+        ],
       },
       fontSize: {
         "fluid-xs": "clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem)",

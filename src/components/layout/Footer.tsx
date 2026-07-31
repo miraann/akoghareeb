@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { socials } from "@/data/socials";
 import { scrollToId } from "@/lib/scrollTo";
 
-const SECTION_IDS = ["gallery", "biography", "media", "contact"] as const;
+const SECTION_IDS = ["gallery", "biography", "media", "tributes", "contact"] as const;
 
 export function Footer() {
   const tNav = useTranslations("nav");
@@ -13,7 +14,24 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-ink/10 bg-canvas">
+    <footer className="relative overflow-hidden border-t border-ink/10 bg-canvas">
+      {/* PaintCanvas's fixed background layer sits behind every section, but
+          this footer's own opaque bg-canvas hides it completely — so this
+          accent lives locally instead, rendered directly on the footer
+          rather than relying on scroll-triggered timing. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 h-24 w-24 sm:h-32 sm:w-32"
+      >
+        <Image
+          src="/images/backgroundanimationicon/2.png"
+          alt=""
+          fill
+          sizes="128px"
+          className="object-contain"
+        />
+      </div>
+
       <div className="container-art section-px flex flex-col gap-12 py-20 sm:gap-10 sm:py-16">
         <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
           <div className="flex flex-col gap-2">

@@ -16,28 +16,9 @@ export function BlockForm({
 
   return (
     <form action={action} className="flex flex-col gap-8">
-      <label className="flex max-w-xs flex-col gap-1.5">
-        <span className="text-fluid-xs font-medium text-ink-soft">Order</span>
-        <input
-          type="number"
-          name="sort_order"
-          defaultValue={block?.sort_order ?? 0}
-          className="rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none focus:border-pigment-terracotta"
-        />
-        <span className="text-fluid-xs text-ink-faint">Lower numbers appear first.</span>
-      </label>
-
-      <LocalizedField
-        name="body"
-        label="Paragraph"
-        multiline
-        required
-        defaults={{ ku: block?.body_ku, en: block?.body_en, ar: block?.body_ar }}
-      />
-
       <fieldset className="flex flex-col gap-3">
         <legend className="text-fluid-xs font-medium uppercase tracking-[0.15em] text-ink-soft">
-          Portrait image
+          وێنەی پۆرترێت
         </legend>
 
         {preview && (
@@ -45,12 +26,12 @@ export function BlockForm({
           <img
             src={preview}
             alt=""
-            className="h-40 w-32 rounded-xl border border-ink/10 bg-canvas-paper object-cover"
+            className="h-48 w-48 rounded-xl border border-ink/10 bg-canvas-paper object-contain"
           />
         )}
 
         <label className="flex flex-col gap-1.5">
-          <span className="text-fluid-xs text-ink-faint">Upload a file</span>
+          <span className="text-fluid-xs text-ink-faint">بارکردنی فایلێک</span>
           <input
             type="file"
             name="image_file"
@@ -63,26 +44,30 @@ export function BlockForm({
           />
         </label>
 
-        <label className="flex flex-col gap-1.5">
-          <span className="text-fluid-xs text-ink-faint">…or paste an image URL</span>
-          <input
-            type="url"
-            name="image_url"
-            placeholder="https://…"
-            onChange={(e) => {
-              if (e.target.value) setPreview(e.target.value);
-            }}
-            className="rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none focus:border-pigment-terracotta"
-          />
-        </label>
-        <p className="text-fluid-xs text-ink-faint">
-          A new file always takes priority over a pasted URL. Leave both empty to keep the current image
-          (or show the default placeholder art, for a new block).
-        </p>
+        <p className="text-fluid-xs text-ink-faint">بەتاڵی بهێڵەرەوە بۆ پاراستنی وێنەی ئێستا.</p>
       </fieldset>
 
+      <label className="flex max-w-xs flex-col gap-1.5">
+        <span className="text-fluid-xs font-medium text-ink-soft">ڕیزبەندی</span>
+        <input
+          type="number"
+          name="sort_order"
+          defaultValue={block?.sort_order ?? 0}
+          className="rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none focus:border-pigment-terracotta focus:ring-2 focus:ring-pigment-terracotta/15"
+        />
+        <span className="text-fluid-xs text-ink-faint">ژمارە بچووکەکان یەکەم دەردەکەون.</span>
+      </label>
+
+      <LocalizedField
+        name="body"
+        label="پەراگراف"
+        multiline
+        required
+        defaults={{ ku: block?.body_ku, en: block?.body_en, ar: block?.body_ar }}
+      />
+
       <div>
-        <SubmitButton>{block ? "Save changes" : "Add block"}</SubmitButton>
+        <SubmitButton>{block ? "پاشەکەوتکردنی گۆڕانکارییەکان" : "زیادکردنی بەش"}</SubmitButton>
       </div>
     </form>
   );

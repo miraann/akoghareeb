@@ -11,6 +11,12 @@ export async function updateProfile(formData: FormData) {
   const supabase = createAdminClient();
 
   const heroImageUrl = await resolveUploadedImageUrl(supabase, formData, "hero_image_file", "hero_image_url");
+  const contactCardImageUrl = await resolveUploadedImageUrl(
+    supabase,
+    formData,
+    "contact_card_image_file",
+    "contact_card_image_url"
+  );
 
   const { error } = await supabase.from("site_profile").upsert({
     id: 1,
@@ -24,6 +30,7 @@ export async function updateProfile(formData: FormData) {
     statement_en: String(formData.get("statement_en") ?? "").trim(),
     statement_ar: String(formData.get("statement_ar") ?? "").trim(),
     ...(heroImageUrl !== undefined ? { hero_image_url: heroImageUrl } : {}),
+    ...(contactCardImageUrl !== undefined ? { contact_card_image_url: contactCardImageUrl } : {}),
   });
   if (error) throw new Error(error.message);
 

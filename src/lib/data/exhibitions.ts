@@ -17,7 +17,7 @@ export async function getExhibitions(): Promise<ExhibitionEntry[]> {
   const { data, error } = await supabase
     .from("exhibitions")
     .select("*")
-    .order("year", { ascending: true });
+    .order("sort_order", { ascending: true });
 
   if (error) {
     console.error("[data] failed to load exhibitions", error.message);

@@ -1,7 +1,7 @@
-import { getPressItems } from "@/lib/data/press";
+import { getPressItems, getPressCategories } from "@/lib/data/press";
 import { MediaPressClient } from "./MediaPressClient";
 
 export async function MediaPress() {
-  const items = await getPressItems();
-  return <MediaPressClient items={items} />;
+  const [items, categories] = await Promise.all([getPressItems(), getPressCategories()]);
+  return <MediaPressClient items={items} categories={categories} limit={6} />;
 }

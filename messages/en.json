@@ -8,6 +8,7 @@
     "gallery": "Gallery",
     "biography": "Biography",
     "media": "Media & Press",
+    "tributes": "Tributes",
     "contact": "Contact"
   },
   "languageSwitcher": {
@@ -28,10 +29,7 @@
     "heading": "The Gallery",
     "subheading": "Three decades of painting across history, satire, and the human face.",
     "filters": {
-      "all": "All Works",
-      "historical": "Historical & National",
-      "political": "Political Caricature",
-      "portraits": "Portraits"
+      "all": "All Works"
     },
     "year": "Year",
     "medium": "Medium",
@@ -60,13 +58,20 @@
     "heading": "Media & Press",
     "subheading": "Interviews, features, and publications on Ako Gharib's work.",
     "filters": {
-      "all": "All",
-      "interview": "Interviews",
-      "article": "Articles",
-      "publication": "Publications"
+      "all": "All"
     },
     "readMore": "Read more",
+    "seeAll": "See all",
+    "backToMedia": "Back to media",
+    "viewSource": "View original source",
     "empty": "No press coverage to show yet — please check back soon."
+  },
+  "tributes": {
+    "eyebrow": "Tributes & Mentions",
+    "heading": "Tributes",
+    "subheading": "Prizes, fan reflections, and media mentions of Ako Gharib's work.",
+    "seeAll": "See all tributes",
+    "empty": "No tributes yet — please check back soon."
   },
   "contact": {
     "eyebrow": "Get in Touch",
@@ -75,11 +80,10 @@
     "form": {
       "name": "Full name",
       "namePlaceholder": "Your name",
-      "email": "Email address",
-      "emailPlaceholder": "you@example.com",
+      "phone": "Phone number",
+      "phonePlaceholder": "+964 750 123 4567",
       "type": "Inquiry type",
       "typeOptions": {
-        "collector": "Collector inquiry",
         "commission": "Commission request",
         "media": "Press / Media",
         "other": "Other"
@@ -92,7 +96,7 @@
       "error": "Something went wrong. Please try again or email us directly.",
       "errors": {
         "name": "Please enter your name.",
-        "email": "Please enter a valid email address.",
+        "phone": "Please enter a valid phone number.",
         "message": "Please write a short message."
       }
     },

@@ -1,5 +1,4 @@
-export type PaintingCategory = "historical" | "political" | "portraits";
-export type PressType = "interview" | "article" | "publication";
+export type ContactRequestType = "commission" | "media" | "other";
 
 export interface Database {
   public: {
@@ -17,8 +16,9 @@ export interface Database {
           medium_en: string;
           medium_ar: string;
           image_url: string | null;
-          category: PaintingCategory;
+          category_id: string;
           year: number;
+          sort_order: number;
           created_at: string;
           updated_at: string;
         };
@@ -34,12 +34,37 @@ export interface Database {
           medium_en?: string;
           medium_ar?: string;
           image_url?: string | null;
-          category: PaintingCategory;
+          category_id: string;
           year: number;
+          sort_order?: number;
           created_at?: string;
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["paintings"]["Insert"]>;
+        Relationships: [];
+      };
+      painting_categories: {
+        Row: {
+          id: string;
+          slug: string;
+          label_ku: string;
+          label_en: string;
+          label_ar: string;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          label_ku: string;
+          label_en: string;
+          label_ar: string;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["painting_categories"]["Insert"]>;
         Relationships: [];
       };
       press_media: {
@@ -54,7 +79,8 @@ export interface Database {
           source: string;
           url: string;
           date: string;
-          type: PressType;
+          category_id: string;
+          image_url: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -69,11 +95,36 @@ export interface Database {
           source: string;
           url: string;
           date: string;
-          type: PressType;
+          category_id: string;
+          image_url?: string | null;
           created_at?: string;
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["press_media"]["Insert"]>;
+        Relationships: [];
+      };
+      press_categories: {
+        Row: {
+          id: string;
+          slug: string;
+          label_ku: string;
+          label_en: string;
+          label_ar: string;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          label_ku: string;
+          label_en: string;
+          label_ar: string;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["press_categories"]["Insert"]>;
         Relationships: [];
       };
       exhibitions: {
@@ -86,6 +137,7 @@ export interface Database {
           details_en: string;
           details_ar: string;
           year: string;
+          sort_order: number;
           created_at: string;
           updated_at: string;
         };
@@ -98,6 +150,7 @@ export interface Database {
           details_en?: string;
           details_ar?: string;
           year: string;
+          sort_order?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -123,6 +176,7 @@ export interface Database {
           statement_en: string | null;
           statement_ar: string | null;
           hero_image_url: string | null;
+          contact_card_image_url: string | null;
           updated_at: string;
         };
         Insert: {
@@ -137,6 +191,7 @@ export interface Database {
           statement_en?: string | null;
           statement_ar?: string | null;
           hero_image_url?: string | null;
+          contact_card_image_url?: string | null;
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["site_profile"]["Insert"]>;
@@ -196,6 +251,72 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["biography_blocks"]["Insert"]>;
         Relationships: [];
       };
+      contact_messages: {
+        Row: {
+          id: string;
+          name: string;
+          phone: string;
+          type: ContactRequestType;
+          message: string;
+          is_read: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          phone: string;
+          type: ContactRequestType;
+          message: string;
+          is_read?: boolean;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["contact_messages"]["Insert"]>;
+        Relationships: [];
+      };
+      tributes: {
+        Row: {
+          id: string;
+          title_ku: string;
+          title_en: string;
+          title_ar: string;
+          person_name: string;
+          details_ku: string;
+          details_en: string;
+          details_ar: string;
+          image_url: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title_ku: string;
+          title_en: string;
+          title_ar: string;
+          person_name: string;
+          details_ku: string;
+          details_en: string;
+          details_ar: string;
+          image_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["tributes"]["Insert"]>;
+        Relationships: [];
+      };
+      admin_push_tokens: {
+        Row: {
+          id: string;
+          token: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          token: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["admin_push_tokens"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -206,8 +327,12 @@ export interface Database {
 
 export type PaintingRow = Database["public"]["Tables"]["paintings"]["Row"];
 export type PaintingInsert = Database["public"]["Tables"]["paintings"]["Insert"];
+export type PaintingCategoryRow = Database["public"]["Tables"]["painting_categories"]["Row"];
+export type PaintingCategoryInsert = Database["public"]["Tables"]["painting_categories"]["Insert"];
 export type PressMediaRow = Database["public"]["Tables"]["press_media"]["Row"];
 export type PressMediaInsert = Database["public"]["Tables"]["press_media"]["Insert"];
+export type PressCategoryRow = Database["public"]["Tables"]["press_categories"]["Row"];
+export type PressCategoryInsert = Database["public"]["Tables"]["press_categories"]["Insert"];
 export type ExhibitionRow = Database["public"]["Tables"]["exhibitions"]["Row"];
 export type ExhibitionInsert = Database["public"]["Tables"]["exhibitions"]["Insert"];
 export type SiteProfileRow = Database["public"]["Tables"]["site_profile"]["Row"];
@@ -216,3 +341,9 @@ export type BiographyIntroRow = Database["public"]["Tables"]["biography_intro"][
 export type BiographyIntroInsert = Database["public"]["Tables"]["biography_intro"]["Insert"];
 export type BiographyBlockRow = Database["public"]["Tables"]["biography_blocks"]["Row"];
 export type BiographyBlockInsert = Database["public"]["Tables"]["biography_blocks"]["Insert"];
+export type ContactMessageRow = Database["public"]["Tables"]["contact_messages"]["Row"];
+export type ContactMessageInsert = Database["public"]["Tables"]["contact_messages"]["Insert"];
+export type TributeRow = Database["public"]["Tables"]["tributes"]["Row"];
+export type TributeInsert = Database["public"]["Tables"]["tributes"]["Insert"];
+export type AdminPushTokenRow = Database["public"]["Tables"]["admin_push_tokens"]["Row"];
+export type AdminPushTokenInsert = Database["public"]["Tables"]["admin_push_tokens"]["Insert"];

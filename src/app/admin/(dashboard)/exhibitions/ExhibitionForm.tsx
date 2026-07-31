@@ -14,28 +14,29 @@ export function ExhibitionForm({
   return (
     <form action={action} className="flex flex-col gap-8">
       <label className="flex max-w-xs flex-col gap-1.5">
-        <span className="text-fluid-xs font-medium text-ink-soft">Year</span>
+        <span className="text-fluid-xs font-medium text-ink-soft">ساڵ</span>
         <input
           type="text"
           name="year"
           required
-          placeholder="e.g. 2016 or 2019–2020"
+          placeholder="بۆ نموونە: ٢٠١٦ یان ٢٠١٩–٢٠٢٠"
           defaultValue={exhibition?.year ?? ""}
-          className="rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none focus:border-pigment-terracotta"
+          className="rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none focus:border-pigment-terracotta focus:ring-2 focus:ring-pigment-terracotta/15"
         />
       </label>
 
       <LocalizedField
         name="title"
-        label="Title"
+        label="ناونیشان"
         required
         defaults={{ ku: exhibition?.title_ku, en: exhibition?.title_en, ar: exhibition?.title_ar }}
       />
 
       <LocalizedField
         name="details"
-        label="Details"
+        label="وردەکارییەکان"
         multiline
+        resizable
         defaults={{
           ku: exhibition?.details_ku,
           en: exhibition?.details_en,
@@ -44,7 +45,7 @@ export function ExhibitionForm({
       />
 
       <div>
-        <SubmitButton>{exhibition ? "Save changes" : "Add exhibition"}</SubmitButton>
+        <SubmitButton>{exhibition ? "پاشەکەوتکردنی گۆڕانکارییەکان" : "زیادکردنی پێشانگا"}</SubmitButton>
       </div>
     </form>
   );

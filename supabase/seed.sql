@@ -140,3 +140,51 @@ values
    $t$An essay accompanying the charcoal portrait series on border porters.$t$,
    $t$مقال مرافق لسلسلة بورتريهات الفحم عن حمّالي الحدود.$t$,
    'Northern Gazette Culture Desk', 'https://example.com', '2020-01-27', 'publication');
+
+-- Biography section — the eyebrow/heading/intro plus the four paragraph
+-- blocks, seeded with the same copy the site already falls back to (see
+-- messages/*.json), so the admin form isn't empty. image_url is left null
+-- for each block — the site shows placeholder art until real portrait
+-- photos are uploaded via /admin/biography/blocks/[id].
+insert into public.biography_intro
+  (id, eyebrow_ku, eyebrow_en, eyebrow_ar, heading_ku, heading_en, heading_ar, intro_ku, intro_en, intro_ar)
+values
+  (1,
+   $t$هونەرمەند$t$, $t$The Artist$t$, $t$الفنان$t$,
+   $t$ژیانێک بۆ کانڤاس$t$, $t$A Life Devoted to the Canvas$t$, $t$حياة كُرِّست للوحة$t$,
+   $t$ئاکۆ غەریب تەمەنێکی خۆی بەخشیوە بۆ گواستنەوەی یادگاری، خەبات و گاڵتەجاڕی گەلی کورد بۆ سەر کانڤاس.$t$,
+   $t$Ako Gharib has spent a lifetime translating the memory, struggle, and humor of the Kurdish people into paint.$t$,
+   $t$أمضى آكو غريب حياته في ترجمة ذاكرة الشعب الكردي ونضاله وسخريته إلى لوحات.$t$)
+on conflict (id) do update set
+  eyebrow_ku = excluded.eyebrow_ku,
+  eyebrow_en = excluded.eyebrow_en,
+  eyebrow_ar = excluded.eyebrow_ar,
+  heading_ku = excluded.heading_ku,
+  heading_en = excluded.heading_en,
+  heading_ar = excluded.heading_ar,
+  intro_ku = excluded.intro_ku,
+  intro_en = excluded.intro_en,
+  intro_ar = excluded.intro_ar;
+
+insert into public.biography_blocks
+  (body_ku, body_en, body_ar, sort_order)
+values
+  ($t$لە خاکێکەوە کە چیاکان و کۆچکردن شێوەیان داوە، ئاکۆ غەریب پێش خوێندنەوە فێری وێنەکێشان بوو — وێنەی ڕووی پیرەکان، چینەکانی جلوبەرگی نەریتی و سیمای وڵاتێکی دەکێشا کە زۆرجار مشتومڕی لەسەرە بەڵام هەرگیز لەبیر ناکرێت.$t$,
+   $t$Born into a land shaped by mountains and migration, Ako Gharib first learned to draw before he learned to write — sketching the faces of elders, the folds of traditional dress, and the silhouettes of a homeland often contested but never forgotten.$t$,
+   $t$وُلد في أرضٍ شكّلتها الجبال والهجرة، وتعلّم آكو غريب الرسم قبل أن يتعلّم الكتابة — كان يرسم وجوه الكبار، وتفاصيل الأزياء التقليدية، وملامح وطنٍ كثيرًا ما نوزع عليه لكنه لم يُنسَ أبدًا.$t$,
+   0),
+
+  ($t$کارە مێژووی و نیشتمانییەکانی چیرۆکی درێژی ناسنامەی کوردی دەگێڕنەوە: ڕاپەڕین و خۆڕاگری بێدەنگ، جەژن و ڕاپەڕین، بە ڕێزێکی مێژوونووسانە و دەستێکی ڕاهێنراو لە ڕیالیزمی کلاسیکیدا وێنە دەکرێن.$t$,
+   $t$His historical and national works trace the long arc of Kurdish identity: uprisings and quiet resilience, festivals and exile, rendered with the reverence of a chronicler and the hand of a painter trained in classical realism.$t$,
+   $t$تتبّع أعماله التاريخية والوطنية المسار الطويل للهوية الكردية: انتفاضات وصمود هادئ، أعياد ومنفى، مرسومة بإجلال المؤرِّخ وحرفية رسّام تدرّب على الواقعية الكلاسيكية.$t$,
+   1),
+
+  ($t$لەگەڵ ئەمەشدا، هێڵێکی تیژتر و زیرەکترمان لە کاریکاتێرە سیاسییەکانیدا دەبینین — گفتوگۆیەکی چەند دەیەیی لەگەڵ دەسەڵات، بە گاڵتەجاڕییەک کە تیژە بۆ خەڵەتاندن و ڕاستە بۆ ئازاردان.$t$,
+   $t$Alongside this, a sharper, wittier line runs through his political caricatures — a decades-long conversation with power, drawn with humor sharp enough to disarm and honest enough to sting.$t$,
+   $t$وإلى جانب ذلك، يمتد خطّ أكثر حدّة وذكاءً في كاريكاتيره السياسي — حوار طويل الأمد مع السلطة، رُسم بروح فكاهية حادة بما يكفي لنزع السلاح، وصادقة بما يكفي لتوجع.$t$,
+   2),
+
+  ($t$لە پۆرترێتەکانیدا، هەردوو ورەیە یەکدەگرنەوە: هەر کەسێک، بەناوبانگ یان نەناسراو، وەک مێژوویەکی بەردەوام وێنە دەکرێت — ڕووێک کە شایانی بیرکردنەوەیە.$t$,
+   $t$In his portraits, the two impulses meet: every subject, famous or unnamed, is painted as history in progress — a face worth remembering.$t$,
+   $t$وفي بورتريهاته يلتقي الدافعان معًا: كل شخصية، مشهورة كانت أم مجهولة، تُرسم بوصفها تاريخًا في طور التكوّن — وجهًا يستحق أن يُتذكَّر.$t$,
+   3);

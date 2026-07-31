@@ -20,14 +20,14 @@ export default async function AdminBiographyPage(
   return (
     <div className="flex flex-col gap-10">
       <div>
-        <h1 className="font-display text-fluid-xl font-semibold text-ink">Biography</h1>
+        <h1 className="font-kurdish text-fluid-xl font-semibold text-ink">ژیاننامە</h1>
         <p className="mt-1 text-fluid-sm text-ink-soft">
-          The eyebrow, heading, intro, and paragraph vignettes on the Biography section.
+          دەربڕین، ناونیشان، سەرەتا و پەراگرافە بچووکەکانی بەشی ژیاننامە.
         </p>
       </div>
       {searchParams.saved === "1" && (
         <p className="flex items-center gap-2 rounded-xl bg-pigment-teal/10 px-4 py-3 text-fluid-sm text-pigment-teal">
-          <CheckCircle2 size={16} /> Saved.
+          <CheckCircle2 size={16} /> پاشەکەوت کرا.
         </p>
       )}
       <div className="max-w-2xl rounded-2xl border border-ink/10 bg-white p-6 shadow-card sm:p-8">
@@ -36,28 +36,28 @@ export default async function AdminBiographyPage(
       <div className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="font-display text-fluid-lg font-semibold text-ink">Paragraph blocks</h2>
+            <h2 className="font-kurdish text-fluid-lg font-semibold text-ink">بەشە پەراگرافەکان</h2>
             <p className="mt-1 text-fluid-sm text-ink-soft">
-              Each block pairs a paragraph with a portrait image, shown in order.
+              هەر بەشێک پەراگرافێک لەگەڵ وێنەیەکی پۆرترێت جووت دەکات، بەپێی ڕیزبەندی پیشان دەدرێت.
             </p>
           </div>
           <Link
             href="/admin/biography/blocks/new"
             className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2.5 text-fluid-sm font-medium text-canvas transition-colors hover:bg-pigment-terracotta"
           >
-            <Plus size={16} /> Add block
+            <Plus size={16} /> زیادکردنی بەش
           </Link>
         </div>
 
         {blocksError && (
           <p className="rounded-xl bg-pigment-crimson/10 px-4 py-3 text-fluid-sm text-pigment-crimson">
-            Failed to load blocks: {blocksError.message}
+            سەرکەوتوو نەبوو لە بارکردنی بەشەکان: {blocksError.message}
           </p>
         )}
 
         {!blocksError && (blocks?.length ?? 0) === 0 && (
           <p className="text-fluid-sm text-ink-faint">
-            No blocks yet — the site falls back to its default paragraphs until you add some here.
+            هێشتا هیچ بەشێک نییە — ماڵپەڕ دەگەڕێتەوە بۆ پەراگرافە بنەڕەتییەکانی خۆی تا ئێرە بەشیان زیاد بکەیت.
           </p>
         )}
 
@@ -75,20 +75,20 @@ export default async function AdminBiographyPage(
               </div>
               <div className="min-w-0 flex-1">
                 <div className="truncate text-fluid-sm font-medium text-ink">
-                  {block.body_en || <span className="text-ink-faint">(no English text yet)</span>}
+                  {block.body_ku || <span className="text-ink-faint">(هێشتا دەقی کوردی نییە)</span>}
                 </div>
-                <div className="text-fluid-xs text-ink-faint">order {block.sort_order}</div>
+                <div className="text-fluid-xs text-ink-faint">ڕیزبەندی {block.sort_order}</div>
               </div>
               <Link
                 href={`/admin/biography/blocks/${block.id}`}
-                aria-label="Edit"
+                aria-label="دەستکاریکردن"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-faint transition-colors hover:border-pigment-terracotta hover:text-pigment-terracotta"
               >
                 <Pencil size={15} />
               </Link>
               <DeleteButton
                 action={deleteBiographyBlock.bind(null, block.id)}
-                confirmMessage="Delete this paragraph block? This can't be undone."
+                confirmMessage="ئەم بەشە پەراگرافە بسڕدرێتەوە؟ ناتوانرێت هەڵبوەشێندرێتەوە."
               />
             </div>
           ))}

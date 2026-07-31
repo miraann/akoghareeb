@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { scrollToId } from "@/lib/scrollTo";
 
-const SECTION_IDS = ["gallery", "biography", "media", "contact"] as const;
+const SECTION_IDS = ["gallery", "biography", "media", "tributes", "contact"] as const;
 
 export function Header() {
   const t = useTranslations("nav");
@@ -34,11 +35,15 @@ export function Header() {
         }`}
       >
         <div className="container-art section-px flex h-20 items-center justify-between">
-          <button
-            onClick={() => scrollToId("hero")}
-            className="font-display text-fluid-lg font-semibold tracking-tight text-ink"
-          >
-            {t("brand")}
+          <button onClick={() => scrollToId("hero")} aria-label={t("brand")} className="shrink-0">
+            <Image
+              src="/images/logo/logo.png"
+              alt={t("brand")}
+              width={200}
+              height={200}
+              priority
+              className="h-11 w-11 object-contain sm:h-12 sm:w-12"
+            />
           </button>
 
           <nav className="hidden items-center gap-9 lg:flex">

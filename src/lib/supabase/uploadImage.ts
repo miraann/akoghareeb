@@ -13,10 +13,10 @@ export async function resolveUploadedImageUrl(
   supabase: ReturnType<typeof createAdminClient>,
   formData: FormData,
   fieldName: string,
-  urlFieldName: string
+  urlFieldName?: string
 ): Promise<string | null | undefined> {
   const file = formData.get(fieldName);
-  const urlField = String(formData.get(urlFieldName) ?? "").trim();
+  const urlField = urlFieldName ? String(formData.get(urlFieldName) ?? "").trim() : "";
 
   if (file instanceof File && file.size > 0) {
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";

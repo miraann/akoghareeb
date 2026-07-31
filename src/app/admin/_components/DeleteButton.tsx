@@ -20,7 +20,7 @@ export function DeleteButton({
     >
       <button
         type="submit"
-        aria-label="Delete"
+        aria-label="سڕینەوە"
         className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-faint transition-colors hover:border-pigment-crimson hover:text-pigment-crimson"
       >
         <Trash2 size={15} />

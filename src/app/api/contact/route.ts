@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { createClient } from "@/lib/supabase/server";
 
 const schema = z.object({
   name: z.string().min(1),
-  email: z.string().email(),
-  type: z.enum(["collector", "commission", "media", "other"]),
+  phone: z.string().min(7).regex(/^[0-9+\-\s()]+$/),
+  type: z.enum(["commission", "media", "other"]),
   message: z.string().min(10),
 });
 
-// TODO: wire this up to a real email provider (Resend, SMTP, Formspree, etc.)
-// once credentials are available. For now it validates and logs the submission.
+// TODO: also wire this up to a real email provider (Resend, SMTP, etc.) once
+// credentials are available, so new inquiries page/notify someone in real
+// time rather than only being visible next time the admin checks the inbox.
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -18,10 +20,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_input" }, { status: 400 });
   }
 
-  console.log("[contact] new inquiry received", {
-    type: parsed.data.type,
-    email: parsed.data.email,
-  });
+  const supabase = createClient();
+  const { error } = await supabase.from("contact_messages").insert(parsed.data);
+
+  if (error) {
+    console.error("[contact] failed to save inquiry", error.message);
+    return NextResponse.json({ ok: false, error: "save_failed" }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }
