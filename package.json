@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "cap:sync": "cap sync android",
-    "cap:open": "cap open android"
+    "cap:open": "cap open android",
+    "android:release": "cd android && gradlew.bat assembleRelease"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
