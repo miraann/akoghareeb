@@ -44,7 +44,7 @@ export async function getPaintings(): Promise<GalleryItem[]> {
     return [];
   }
 
-  return ((data as PaintingWithCategory[] | null) ?? [])
+  return ((data as unknown as PaintingWithCategory[] | null) ?? [])
     .map(toGalleryItem)
     .filter((item): item is GalleryItem => item !== null);
 }

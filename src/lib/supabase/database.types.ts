@@ -317,9 +317,38 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["admin_push_tokens"]["Insert"]>;
         Relationships: [];
       };
+      page_visits: {
+        Row: {
+          id: string;
+          path: string;
+          country: string | null;
+          city: string | null;
+          ip_hash: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          path: string;
+          country?: string | null;
+          city?: string | null;
+          ip_hash?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["page_visits"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      check_admin_login_attempt: {
+        Args: { client_ip: string };
+        Returns: boolean;
+      };
+      record_page_visit: {
+        Args: { p_path: string; p_country?: string | null; p_city?: string | null; p_ip_hash?: string | null };
+        Returns: undefined;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Image as ImageIcon, CalendarClock, Newspaper, UserRound, BookOpen, Tags, Inbox, Award } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getUnreadMessageCount } from "./messages/actions";
+import { getVisitStats } from "./getVisitStats";
+import { AnalyticsSection } from "./AnalyticsSection";
 
 async function getCounts() {
   const supabase = createClient();
@@ -41,7 +43,7 @@ async function getCounts() {
 }
 
 export default async function AdminOverviewPage() {
-  const counts = await getCounts();
+  const [counts, visitStats] = await Promise.all([getCounts(), getVisitStats()]);
 
   const cards = [
     {
@@ -90,6 +92,8 @@ export default async function AdminOverviewPage() {
           </Link>
         ))}
       </div>
+
+      <AnalyticsSection stats={visitStats} />
     </div>
   );
 }

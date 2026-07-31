@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing, getDirection, type Locale } from "@/i18n/routing";
 import { SmoothScrollProvider } from "@/lib/SmoothScrollProvider";
+import { VisitTracker } from "@/components/VisitTracker";
 import "../globals.css";
 
 const vazirmatn = Vazirmatn({
@@ -51,6 +52,7 @@ export default async function LocaleLayout({
     <html lang={locale} dir={dir} className={vazirmatn.variable}>
       <body className="bg-canvas font-body text-ink antialiased">
         <NextIntlClientProvider>
+          <VisitTracker />
           <SmoothScrollProvider>{children}</SmoothScrollProvider>
         </NextIntlClientProvider>
       </body>

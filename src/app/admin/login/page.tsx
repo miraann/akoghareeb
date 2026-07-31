@@ -1,4 +1,5 @@
 import { signIn } from "./actions";
+import { PasswordField } from "./PasswordField";
 
 export const metadata = { title: "چوونەژوورەوەی بەڕێوەبردن — ئاکۆ غەریب" };
 
@@ -8,7 +9,8 @@ export default async function AdminLoginPage(
   }
 ) {
   const searchParams = await props.searchParams;
-  const hasError = searchParams.error === "1";
+  const hasWrongPasswordError = searchParams.error === "1";
+  const hasRateLimitError = searchParams.error === "2";
   const next = searchParams.next ?? "/admin";
 
   return (
@@ -17,9 +19,14 @@ export default async function AdminLoginPage(
         <h1 className="font-kurdish text-fluid-lg font-semibold text-ink">چوونەژوورەوەی بەڕێوەبردن</h1>
         <p className="mt-1 text-fluid-sm text-ink-soft">داشبۆردی ناوەڕۆکی ئاکۆ غەریب</p>
 
-        {hasError && (
+        {hasWrongPasswordError && (
           <p className="mt-4 rounded-lg bg-pigment-crimson/10 px-3 py-2 text-fluid-xs text-pigment-crimson">
             وشەی نهێنی هەڵەیە.
+          </p>
+        )}
+        {hasRateLimitError && (
+          <p className="mt-4 rounded-lg bg-pigment-crimson/10 px-3 py-2 text-fluid-xs text-pigment-crimson">
+            تکایە کەمێک چاوەڕێ بکە و دووبارە هەوڵ بدەوە (تەنها هەوڵێک لە خولەکێکدا).
           </p>
         )}
 
@@ -27,14 +34,7 @@ export default async function AdminLoginPage(
           <input type="hidden" name="next" value={next} />
           <label className="flex flex-col gap-1.5">
             <span className="text-fluid-xs font-medium text-ink-soft">وشەی نهێنی</span>
-            <input
-              type="password"
-              name="password"
-              required
-              autoFocus
-              autoComplete="current-password"
-              className="rounded-xl border border-ink/15 bg-canvas px-3.5 py-2.5 text-fluid-sm text-ink outline-none transition-colors focus:border-pigment-terracotta focus:ring-2 focus:ring-pigment-terracotta/15"
-            />
+            <PasswordField />
           </label>
           <button
             type="submit"

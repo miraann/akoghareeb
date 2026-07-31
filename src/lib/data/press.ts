@@ -49,7 +49,7 @@ export async function getPressItems(): Promise<PressItem[]> {
     return [];
   }
 
-  return ((data as PressMediaWithCategory[] | null) ?? [])
+  return ((data as unknown as PressMediaWithCategory[] | null) ?? [])
     .map(toPressItem)
     .filter((item): item is PressItem => item !== null);
 }
@@ -64,7 +64,7 @@ export async function getPressItem(id: string): Promise<PressItem | null> {
 
   if (error || !data) return null;
 
-  return toPressItem(data as PressMediaWithCategory);
+  return toPressItem(data as unknown as PressMediaWithCategory);
 }
 
 export async function getPressCategories(): Promise<PressCategory[]> {
