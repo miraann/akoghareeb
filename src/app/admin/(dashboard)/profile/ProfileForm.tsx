@@ -62,7 +62,7 @@ export function ProfileForm({
 
       <fieldset className="flex flex-col gap-3">
         <legend className="text-fluid-xs font-medium uppercase tracking-[0.15em] text-ink-soft">
-          وێنەی کارتی پەیوەندی (بەشی «پەیوەندیمان پێوە بکە»)
+          وێنەی کارتی پەیوەندی (بەشی «پەیوەندی بکە»)
         </legend>
 
         {contactCardPreview && (
@@ -118,6 +118,7 @@ export function ProfileForm({
         name="statement"
         label="ژیاننامە / دەربڕین"
         multiline
+        resizable
         defaults={{
           ku: withFallback(profile?.statement_ku, homepageDefaults.statement.ku),
           en: withFallback(profile?.statement_en, homepageDefaults.statement.en),

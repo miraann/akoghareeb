@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ArtworkPlaceholder } from "@/components/ui/ArtworkPlaceholder";
 import { Link } from "@/i18n/navigation";
+import { TributesCarousel } from "./TributesCarousel";
 import { getTributes } from "@/lib/data/tributes";
 import type { Locale } from "@/i18n/routing";
 
@@ -25,7 +26,7 @@ export async function Tributes() {
         <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} subheading={t("subheading")} />
 
         <Reveal delay={0.1}>
-          <div className="scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
+          <TributesCarousel>
             {items.map((item) => (
               <article
                 key={item.id}
@@ -55,7 +56,7 @@ export async function Tributes() {
                 </div>
               </article>
             ))}
-          </div>
+          </TributesCarousel>
         </Reveal>
 
         <Reveal delay={0.15} className="flex justify-center">

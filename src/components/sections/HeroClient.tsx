@@ -54,7 +54,7 @@ export function HeroClient({ profile }: { profile: SiteProfileRow | null }) {
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="max-w-md text-fluid-lg leading-relaxed text-ink-soft">{statement}</p>
+            <p className="max-w-md whitespace-pre-line text-fluid-base leading-relaxed text-ink-soft">{statement}</p>
           </Reveal>
           <Reveal delay={0.3}>
             <div className="flex items-center gap-4 pt-2">
@@ -87,7 +87,7 @@ export function HeroClient({ profile }: { profile: SiteProfileRow | null }) {
 
       <motion.button
         onClick={() => scrollToId("gallery")}
-        className="absolute inset-x-0 bottom-8 mx-auto flex w-fit flex-col items-center gap-2 text-ink-faint transition-colors hover:text-pigment-terracotta"
+        className="absolute inset-x-0 bottom-8 mx-auto hidden w-fit flex-col items-center gap-2 text-ink-faint transition-colors hover:text-pigment-terracotta lg:flex"
         animate={reduceMotion ? undefined : { y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         aria-label={t("scrollHint")}

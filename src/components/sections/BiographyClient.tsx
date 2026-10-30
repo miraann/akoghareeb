@@ -96,7 +96,7 @@ export function BiographyClient({
         <Reveal from="fade">
           <blockquote className="relative mx-auto max-w-3xl text-center">
             <Quote className="mx-auto mb-4 h-8 w-8 text-pigment-gold" />
-            <p className="font-display text-fluid-2xl font-medium italic leading-snug text-ink">
+            <p className="font-display text-fluid-xl font-medium italic leading-snug text-ink">
               “{t("quote")}”
             </p>
           </blockquote>
