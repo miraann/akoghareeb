@@ -1,4 +1,5 @@
 import "server-only";
+import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { cert, getApps, getApp, initializeApp } from "firebase-admin/app";
 import { getMessaging } from "firebase-admin/messaging";
@@ -34,8 +35,18 @@ function getFirebaseAdminApp() {
   });
 }
 
+/** Constant-time check of the shared secret; fails closed when it isn't configured. */
+function hasValidSecret(request: Request): boolean {
+  const expected = process.env.WEBHOOK_SECRET;
+  const given = request.headers.get("x-webhook-secret");
+  if (!expected || !given) return false;
+  const a = Buffer.from(given);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
 export async function POST(request: Request) {
-  if (request.headers.get("x-webhook-secret") !== process.env.WEBHOOK_SECRET) {
+  if (!hasValidSecret(request)) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 
