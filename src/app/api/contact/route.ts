@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
+// Upper bounds keep a public form from being used to store or push huge
+// payloads. The same limits are enforced in the database
+// (supabase/migrations/0018_contact_message_limits.sql), because the table
+// also accepts inserts straight from the public Supabase API.
 const schema = z.object({
-  name: z.string().min(1),
-  phone: z.string().min(7).regex(/^[0-9+\-\s()]+$/),
+  name: z.string().trim().min(1).max(100),
+  phone: z.string().trim().min(7).max(30).regex(/^[0-9+\-\s()]+$/),
   type: z.enum(["commission", "media", "other"]),
-  message: z.string().min(10),
+  message: z.string().trim().min(10).max(5000),
 });
 
 // TODO: also wire this up to a real email provider (Resend, SMTP, etc.) once
